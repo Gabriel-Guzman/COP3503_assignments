@@ -30,6 +30,8 @@ public class UnitTest {
 
 		correctString = "1 0 -3\n2 2 4\n";
 		System.out.println("");
+		System.out.println("correct string: \n" + correctString);
+		System.out.println("myTest alt: \n" + myTest.toString());
 		System.out.println("toString is correct: " + correctString.equals(myTest.toString()));
 
 		myTest.removeElement(2, 2);

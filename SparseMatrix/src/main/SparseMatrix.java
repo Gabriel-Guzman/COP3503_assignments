@@ -206,17 +206,16 @@ public class SparseMatrix implements SparseInterface {
 
 	// Returns a string representing the SparseMatrix.
 	public String toString() {
-		Row temp = head;
 		String result = "";
-
-		while (temp != null) {
-			result += temp.toString();
-			temp = temp.next;
+		for (int i = 0; i < this.getNumRows(); i++) {
+			Row temp = this.referenceAt(i);
+			if (temp != null) result += temp.toString();
 		}
 
 		return result;
 	}
 	
+	// This is a helper method that prints a different representation of the SparseMatrix.
 	public String altToString() {
 		String result = "";
 
