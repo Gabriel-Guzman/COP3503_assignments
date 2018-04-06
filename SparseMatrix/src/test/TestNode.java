@@ -3,7 +3,7 @@ package test;
 import main.Node;
 
 public class TestNode {
-	public void run() {
+	public static void run() {
 		Node node = new Node(12, 12);
 		
 		System.out.println("data() test. Should be 12:");

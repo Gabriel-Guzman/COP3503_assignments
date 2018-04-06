@@ -218,7 +218,6 @@ public class SparseMatrix implements SparseInterface {
 	}
 	
 	public String altToString() {
-		Row temp = head;
 		String result = "";
 
 		for (int tempRow = 0; tempRow < this.getNumRows(); tempRow++) {
