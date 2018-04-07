@@ -1,5 +1,7 @@
 package main;
 
+// This one is for you guys, Jose Torres and Zachary Rolston. Hope you like it.
+// Written by Gabriel Guzman, 2018.
 public class SparseMatrix implements SparseInterface {
 
 	private Row head = null;
