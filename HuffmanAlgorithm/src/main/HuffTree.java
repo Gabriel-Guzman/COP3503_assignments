@@ -13,6 +13,8 @@ public class HuffTree {
 				throw new Exception("Character code can only contain 0's and 1's");
 			}
 			
+			if (temp.right == null && temp.left == null) return temp._char();
+			
 			switch (c) {
 			case '1': temp = temp.right;
 				break;
