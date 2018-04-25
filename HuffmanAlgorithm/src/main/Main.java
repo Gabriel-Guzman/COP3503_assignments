@@ -8,8 +8,8 @@ public class Main {
 		
 		File file = new File("C:\\Users\\gabe1\\Documents\\School\\COP3503\\COP3503_assignments\\HuffmanAlgorithm\\src\\input.txt");
 		
-		HuffTree huff = new HuffTree();
-		System.out.println(huff.buildTree(file));
+		HuffmanEncoder huff = new HuffmanEncoder();
+		System.out.println(huff.traverseHuffmanTree(huff.buildTree(file)));
 		
 	}
 }
