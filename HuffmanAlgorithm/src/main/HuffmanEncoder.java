@@ -81,15 +81,16 @@ public class HuffmanEncoder implements HuffmanCoding {
 		return pq;
 	}
 
-	@Override
+	// Builds a HuffTree using the inputFile argument.
 	public HuffTree buildTree(File inputFile) throws FileNotFoundException, Exception {
 		int[] frequencies = this._getFrequencies(inputFile);
 		
+		// Note that this pq uses a custom comparator _ class Comparator
 		PriorityQueue<Node> pq = _pqFromArray(frequencies);
-		// TODO: Begin build process https://www.geeksforgeeks.org/greedy-algorithms-set-3-huffman-coding/
 		
 		Node root = null;
 		
+		// Standard Huffman Tree building algorithm
 		while (pq.size() > 1) {
 			Node left 	= pq.poll();
 			Node right 	= pq.poll();
@@ -108,54 +109,56 @@ public class HuffmanEncoder implements HuffmanCoding {
 		
 		return huff;
 	}
-
-	@Override
+	
+	// Encodes the text in 'inputFile' with the huffTree argument.
 	public String encodeFile(File inputFile, HuffTree huffTree) throws FileNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String decodeFile(String code, HuffTree huffTree) throws Exception {
-
+		if (!inputFile.exists()) throw new FileNotFoundException();
+		String result = "";
+		int i;
+		FileReader fr = new FileReader(inputFile);
+		try {
+			while ((i=fr.read()) != -1) {
+				// Just encode every char one by one and add to result
+				result += huffTree.encodeChar((char) i);
+			}
+			
+			return result;
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
 		
 		return null;
 	}
 	
+	// Decode the String code using the huffTree argument
+	public String decodeFile(String code, HuffTree huffTree) throws Exception {
+		return huffTree.decode(code);
+	}
+	
+	// Traverses a Huffman subtree putting the result strings in ascii order of the first char.
 	private String pq_traverseHuffSubTree(Node node, String currentCode, PriorityQueue<String> pq) {
 		String result = "";
 		
+		// If the node is a leaf, add it to our priority queue
 		if(node.left == null && node.right == null) {
 			result = node._char() + " " + currentCode + "\n";
 			pq.add(result);
 		} else {
+			// Note that 'result' is a string that represents the tree traversed from 'left' to 'right'.
 			result = pq_traverseHuffSubTree(node.left, currentCode + "0", pq) + pq_traverseHuffSubTree(node.right, currentCode + "1", pq);
 		}
 		
 		return result;
 	}
-
 	
-//	private String traverseHuffSubTree(Node node, String currentCode) {
-//		String result = "";
-//		
-//		if(node.left == null && node.right == null) {
-//			result = node._char() + " " + currentCode + "\n";
-//		} else {
-//			result = _traverseHuffSubTree(node.left, currentCode + "0") + _traverseHuffSubTree(node.right, currentCode + "1");
-//		}
-//		
-//		return result;
-//	}
-
-	@Override
+	// Traverses the HuffTree recursively, and at each leaf it adds a string of the format 'char space code'
+	// to the custom priority queue that orders the strings by project specifications.
 	public String traverseHuffmanTree(HuffTree huffTree) throws Exception {
 		Node root = huffTree.head;
 		PriorityQueue<String> orderedStrings = new PriorityQueue<String>(new _HuffStringComparator());
 		
 		pq_traverseHuffSubTree(root, "", orderedStrings);
-		
-//		System.out.println("ORDERED STRINGS " + orderedStrings.toString());
 		
 		String result = "";
 		while(orderedStrings.size() > 0) {
@@ -166,6 +169,7 @@ public class HuffmanEncoder implements HuffmanCoding {
 	}
 }
 
+// A custom comparator to compare two strings by the ascii codes of their first characters.
 class _HuffStringComparator implements Comparator<String> {
 	public int compare(String x, String y) {
 	 	return ((int) x.charAt(0) - (int) y.charAt(0));
